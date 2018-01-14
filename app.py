@@ -4,9 +4,10 @@ from view.statistics import UMCStats
 from view.loot import UMCLoot
 from view.network import UMCNetwork
 from view.manual import UMCManual
+from view.settings import UMCSettings
 from PyQt5.QtCore import Qt, QSize#, pyqtSignal, QObject
-from PyQt5.QtWidgets import (QApplication,QWidget,QMainWindow,QAction,QMenu,qApp,QDesktopWidget,QMessageBox,QActionGroup,QStackedWidget,QHBoxLayout,QToolBar)#,,QDesktopWidget,QTextEdit,QLabel,QLineEdit,QGridLayout
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import (QApplication,QWidget,QMainWindow,QAction,QMenu,qApp,QDesktopWidget,QMessageBox,QActionGroup,QStackedWidget,QHBoxLayout,QToolBar,QSizePolicy,QLabel)#,,QDesktopWidget,QTextEdit,QLabel,QLineEdit,QGridLayout
+from PyQt5.QtGui import QIcon,QFont
 
 class UMC(QMainWindow):
     
@@ -37,8 +38,12 @@ class UMC(QMainWindow):
         tabNetworkAct.triggered.connect(self.switchAppTab)
         tabOverviewAct = QAction(QIcon('img/tab-home.png'), 'Overview', self)
         tabOverviewAct.triggered.connect(self.switchAppTab)
+        tabSettingsAct = QAction(QIcon('img/tab-settings.png'), 'Settings', self)
+        tabSettingsAct.triggered.connect(self.switchAppTab)
         tabStatsAct = QAction(QIcon('img/tab-graph.png'), 'Statistics', self)
         tabStatsAct.triggered.connect(self.switchAppTab)
+        tabStatusAct = QAction(QIcon('img/tab-status-ok.png'), 'Status', self)
+        tabStatusAct.triggered.connect(self.switchAppTab)
 
         ### MENU BAR ###
         menubar = self.menuBar()
@@ -55,8 +60,9 @@ class UMC(QMainWindow):
         viewMenu.addMenu(themesMenu)
 
         ### TOOLBAR ###
+        toolbarFont = QFont('Helvetica', 10, QFont.Bold)
         self.toolbar = QToolBar(self)
-        self.toolbar.setStyleSheet('QToolBar QToolButton { padding: 4;}')
+        self.toolbar.setStyleSheet('QToolBar QToolButton,QToolBar QLabel { padding: 4; color: #555;}')
         self.toolbar.setIconSize(QSize(24, 24))
         self.toolbar.setObjectName("toolBar")
         self.toolbar.setMovable( False )
@@ -65,8 +71,21 @@ class UMC(QMainWindow):
         self.toolbar.addAction(tabStatsAct)
         self.toolbar.addAction(tabNetworkAct)
         self.toolbar.addAction(tabMarketAct)
+        self.toolbar.addAction(tabSettingsAct)
         self.toolbar.addSeparator()
         self.toolbar.addAction(tabManualAct)
+        
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.toolbar.addWidget(spacer)
+        self.btcLbl = QLabel("$41.50/Day")
+        self.btcLbl.setFont(toolbarFont)
+        self.toolbar.addWidget(self.btcLbl)
+        self.hashLbl = QLabel("2763.45 MH/s")
+        self.hashLbl.setFont(toolbarFont)
+        self.toolbar.addWidget(self.hashLbl)
+        self.toolbar.addAction(tabStatusAct)
+        
 
         ### BODY ###
         self.Stack = QStackedWidget (self)
@@ -74,6 +93,7 @@ class UMC(QMainWindow):
         self.Stack.addWidget(UMCStats(self))
         self.Stack.addWidget(UMCNetwork(self))
         self.Stack.addWidget(UMCLoot(self))
+        self.Stack.addWidget(UMCSettings(self))
         self.Stack.addWidget(UMCManual(self))
         self.setCentralWidget(self.Stack)
 
@@ -81,7 +101,7 @@ class UMC(QMainWindow):
         self.setWindowTitle('Univeral Mining Control')
         self.setStyleSheet("QMainWindow {background: '#FFF';}")
         self.setWindowIcon(QIcon('img/icon.png'))         
-        self.resize(1200, 800)
+        self.resize(800, 600)
         self.center()
         self.show()
 
@@ -113,8 +133,10 @@ class UMC(QMainWindow):
             self.Stack.setCurrentIndex(2)
         elif self.sender().text() == "Loot":
             self.Stack.setCurrentIndex(3)
-        elif self.sender().text() == "John Henry Mode":
+        elif self.sender().text() == "Settings":
             self.Stack.setCurrentIndex(4)
+        elif self.sender().text() == "John Henry Mode":
+            self.Stack.setCurrentIndex(5)
 
     def toggleTheme(self):
         # I know I know, this isn't pretty, just throwing some ideas around...

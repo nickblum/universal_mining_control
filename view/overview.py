@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import (QApplication,QWidget,QTextEdit,QLabel,QLineEdit,QGridLayout)
+from PyQt5.QtWidgets import (QApplication,QWidget,QTextEdit,QLabel,QLineEdit,QGridLayout,QHBoxLayout,QPushButton,QComboBox,QLayout)
+from PyQt5.QtGui import QFont,QIcon,QColor
 
 class UMCOverview(QWidget):
     
@@ -9,29 +10,44 @@ class UMCOverview(QWidget):
         
         
     def initUI(self):
-        
-        title = QLabel('MyActiveMiner #1')
-        
-        #author = QLabel('Author')
-        #review = QLabel('Review')
+        ### TESTING DATA... PRESUMABLY SOMETHIGN LIKE THIS WILL BE AVAILABLE GLOBALLY? ###
+        rigs = {
+            "RigID1":{
+                "name":"Example Rig",
+                "description":"Dedicated to alt coins and stuff. Unstable, something something technical jargon.",
+                "miners": ['GTX-1070Ti','GTX-1070Ti','GTX-1070Ti','GTX-1070Ti']
+            },
+            "RigID2":{
+                "name":"Another Example Rig",
+                "description":"State employees retirement fund",
+                "miners": ['GTX-1080','GTX-1070Ti','GTX-1070Ti']
+            },
+            "RigID3":{
+                "name":"Personal Compter",
+                "description":"",
+                "miners": ['AMD 1600X','GTX-1050Ti']
+            }
 
-        #titleEdit = QLineEdit()
-        #authorEdit = QLineEdit()
-        #reviewEdit = QTextEdit()
+        }
 
-        grid = QGridLayout()
-        grid.setSpacing(10) #padding between gridlines
+        grid = QGridLayout(self)
+        grid.setSizeConstraint(QLayout.SizeConstraint())
+        rigFont = QFont('Helvetica', 10, QFont.Bold)
 
-        grid.addWidget(title, 1, 0)
-        #grid.addWidget(titleEdit, 1, 1)
+        row = 1
+        for key in rigs:
+            rigLabel = QLabel(text=key)
+            rigLabel.setFont(rigFont)
+            subgrid = QGridLayout()
+            subrow = 1
+            for miner in rigs[key]['miners']:
+                subgrid.addWidget(QLabel(text=miner),subrow,0)
+                subrow += 1
+            grid.addWidget(rigLabel,row,0)
+            grid.addLayout(subgrid,row+1,1)
+            row += 2
 
-        #grid.addWidget(author, 2, 0)
-        #grid.addWidget(authorEdit, 2, 1)
+#TODO Find a proper way to minimize the row/column sizes for the regular items
+        grid.addWidget(QLabel(text="placeholder"),row,0,50,50)
 
-        #grid.addWidget(review, 3, 0)
-        #grid.addWidget(reviewEdit, 3, 1, 5, 1)
-        
-        self.setLayout(grid) 
-        #self.setGeometry(300, 300, 350, 300)
-        self.setWindowTitle('Review')    
         self.show()
