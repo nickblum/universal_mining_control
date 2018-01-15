@@ -1,7 +1,7 @@
 import sys
 from view.overview import UMCOverview
 from view.statistics import UMCStats
-from view.loot import UMCLoot
+from view.loot import *
 from view.network import UMCNetwork
 from view.manual import UMCManual
 from view.settings import UMCSettings
@@ -78,7 +78,7 @@ class UMC(QMainWindow):
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
         self.toolbar.addWidget(spacer)
-        self.btcLbl = QLabel("$41.50/Day")
+        self.btcLbl = QLabel("0.003007 BTC ($41.50 USD)/Day")
         self.btcLbl.setFont(toolbarFont)
         self.toolbar.addWidget(self.btcLbl)
         self.hashLbl = QLabel("2763.45 MH/s")
@@ -86,7 +86,6 @@ class UMC(QMainWindow):
         self.toolbar.addWidget(self.hashLbl)
         self.toolbar.addAction(tabStatusAct)
         
-
         ### BODY ###
         self.Stack = QStackedWidget (self)
         self.Stack.addWidget(UMCOverview(self))
