@@ -49,15 +49,14 @@ class UMC(QMainWindow):
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(menuFileExitAct)
-        helpMenu = menubar.addMenu('&Help')
-        helpMenu.addAction(menuHelpAboutAct)
-        
         themesMenu = QMenu('Theme', self)
         ag = QActionGroup(self, exclusive=True)
         themesMenu.addAction(ag.addAction(menuViewThemeLightAct))
         themesMenu.addAction(ag.addAction(menuViewThemeDarkAct))
         viewMenu = menubar.addMenu('&View')
         viewMenu.addMenu(themesMenu)
+        helpMenu = menubar.addMenu('&Help')
+        helpMenu.addAction(menuHelpAboutAct)
 
         ### TOOLBAR ###
         toolbarFont = QFont('Helvetica', 10, QFont.Bold)

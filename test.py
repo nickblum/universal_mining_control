@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QToolTip, QPushButton, QApplication, QMess
     QDesktopWidget, QMainWindow, QAction, qApp, QMenu, QTextEdit, QFrame, QColorDialog,
     QHBoxLayout, QVBoxLayout, QGridLayout, QLabel, QLineEdit, QInputDialog, QFileDialog)
 from PyQt5.QtGui import QFont,QIcon,QColor 
+from view.toggle_switch import ToggleSwitchComposite
 
 class Communicate(QObject):
     closeApp = pyqtSignal()
@@ -32,18 +33,6 @@ class Example(QMainWindow):
         #
         # APPLICATION BODY STUFF
         #
-        '''btn = QPushButton('Button', self)
-        btn.setToolTip('This is a <b>QPushButton</b> widget')
-        btn.resize(btn.sizeHint())
-        btn.move(70, 70)       
-        
-        qbtn = QPushButton('Quit', self)
-        qbtn.clicked.connect(QApplication.instance().quit)
-        qbtn.resize(qbtn.sizeHint())
-        qbtn.move(100, 100)       
-
-        textEdit = QTextEdit()
-        self.setCentralWidget(textEdit) #this overrides my buttons! Damnit!'''
         btn1 = QPushButton("Button 1", self)
         btn1.move(30, 75)
 
@@ -52,6 +41,9 @@ class Example(QMainWindow):
       
         btn1.clicked.connect(self.buttonClicked)            
         btn2.clicked.connect(self.buttonClicked)
+
+        tog = ToggleSwitchComposite()
+        tog.move(300,300)
 
         #
         # MENU BAR STUFF

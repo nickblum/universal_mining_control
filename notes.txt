@@ -1,0 +1,7 @@
+GUI
+    - add computer uptime to overview widget
+    - add expand/collapse option to rig list
+    - test run pulling in system info like cpu temp
+    - make realtime graphs
+    - add periodic exchange data to bitcoin tab
+    - click individual miner to popup history?? some other click function?
