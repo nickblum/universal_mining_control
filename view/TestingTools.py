@@ -3,6 +3,7 @@ import string
 
 class MakeRigs:
     MINER_ARR = ['GTX-1070Ti','GTX-1070Ti','GTX-1070Ti','GTX-1070Ti','GTX-1070Ti','GTX-1080','GTX-1060','AMD 1600X']
+    ALGO = ['Equihash','NeoScript','Cryponight','Lyra2REv2']
     RIG_DESCR = ['Dedicated to alt coins and stuff. Unstable, something something technical jargon.',
                     'Some description'
                     'State Employee Retirement Fund',
@@ -18,17 +19,31 @@ class MakeRigs:
                 thisMinerCount = random.randint(1,minerCount)
             
             tempMiners = {}
+            hashRate = 0.0
+            rigStatus = 0 #0 ok, 1 warn, 2 trouble
             for j in range(0,thisMinerCount):
                 minerId = 'MinerId_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+                minerHash = round(random.uniform(150, 600),2)
+                hashRate += minerHash
+                minerStatus = random.randint(0,3)
+                if minerStatus > rigStatus:
+                    rigStatus = minerStatus
                 tempMiners[minerId] = {
-                    'type':MakeRigs.MINER_ARR[random.randint(0,len(MakeRigs.MINER_ARR)-1)]
+                    'type':MakeRigs.MINER_ARR[random.randint(0,len(MakeRigs.MINER_ARR)-1)],
+                    'hashRate': round(minerHash, 2),
+                    'algorithm': MakeRigs.ALGO[random.randint(0,len(MakeRigs.ALGO)-1)],
+                    'status':minerStatus,
+                    'temp': round(random.uniform(40, 80),1),
+                    'watts': round(random.uniform(50, 150),1)
                 }
             
             rigId = 'RigId_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
             self.rigs[rigId] = {
                 'name':'Example Rig ' + str(i + 1),
-                'description':MakeRigs.RIG_DESCR[(len(MakeRigs.RIG_DESCR) % (i+1)) - 1],
-                'miners': tempMiners
+                'description':'',#MakeRigs.RIG_DESCR[( (i+1) % len(MakeRigs.RIG_DESCR) ) - 1],
+                'hashRate':round(hashRate, 2),
+                'uptime':str(random.randint(0,20)) +'d ' + str(random.randint(0,23)) + 'h ' + str(random.randint(0,59)) + 'm',
+                'miners':tempMiners
             }
 
 #temp=MakeRigs(2,2)
